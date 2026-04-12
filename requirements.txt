@@ -1,0 +1,7 @@
+flask
+tensorflow-cpu==2.13.0
+scikit-learn
+numpy
+flask-cors
+gunicorn
+pillow

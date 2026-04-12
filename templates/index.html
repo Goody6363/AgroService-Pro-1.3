@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroService Pro | Помощь по технике</title>
+    <link rel="stylesheet" href="/static/index.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Russo+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div class="background-engine" aria-hidden="true">
+    <span class="bg-ring bg-ring-one"></span>
+    <span class="bg-ring bg-ring-two"></span>
+    <span class="bg-line bg-line-one"></span>
+    <span class="bg-line bg-line-two"></span>
+    <span class="bg-grid-panel bg-grid-left"></span>
+    <span class="bg-grid-panel bg-grid-right"></span>
+  </div>
+  <div class="page-shell">
+    <header class="hero">
+      <nav class="topbar">
+        <div class="brand-block">
+          <div class="brand-stack">
+            <img class="brand-logo" src="https://rostselmash.com/dist/img/logos/logo_ru_white.svg" alt="Ростсельмаш">
+            <div class="brand-text">
+              <span class="brand-mark">AGRO</span>
+              <span class="brand-copy">Service Pro</span>
+            </div>
+          </div>
+        </div>
+        <div class="topbar-links">
+          <a href="#assistant">ИИ-диагностика</a>
+          <a href="#services">Сервисы</a>
+          <a href="#guide">Как фотографировать</a>
+        </div>
+      </nav>
+
+      <section class="hero-content">
+        <div class="hero-copy">
+          <p class="eyebrow">Сервисное продолжение для сельхозтехники</p>
+          <h1>Помощь при обслуживании, ремонте и эксплуатации машин в одном окне</h1>
+          <p class="hero-text">
+            Загрузите фото узла, опишите симптом, и ваш ИИ сможет определить признаки поломки,
+            подсказать, нужна ли замена детали, и направить механика к нужной статье по ремонту.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#assistant">Запустить диагностику</a>
+            <a class="button button-secondary" href="#guide">Требования к фото</a>
+          </div>
+        </div>
+
+        <aside class="hero-panel">
+          <img class="panel-illustration" src="/static/assets/hero-machine.svg" alt="Сельхозтехника и цифровая диагностика">
+          <span class="panel-label">Сценарий работы</span>
+          <ol class="workflow">
+            <li>Механик делает фото детали или проблемной зоны.</li>
+            <li>ИИ анализирует изображение и описание неисправности.</li>
+            <li>Система показывает статус детали и рекомендуемую статью.</li>
+          </ol>
+          <div class="hero-badge">
+            <strong>24/7</strong>
+            <span>поддержка полевых специалистов и ремонтных бригад</span>
+          </div>
+        </aside>
+      </section>
+    </header>
+
+    <main>
+      <section class="assistant-section" id="assistant">
+        <div class="section-heading">
+          <p class="eyebrow">Инструмент для вашей ИИ-модели</p>
+          <h2>Зона диагностики узлов и деталей</h2>
+          <p>
+            Здесь пользователь может приложить фотографии, описать проблему и получить решение от вашей ИИ-системы.
+          </p>
+        </div>
+
+        <div class="assistant-grid">
+          <form class="assistant-form">
+            <label class="field">
+              <span>Что происходит с техникой</span>
+              <textarea rows="5" placeholder="Например: при запуске слышен посторонний металлический звук, на корпусе редуктора есть подтёки масла."></textarea>
+            </label>
+
+            <div class="dual-fields">
+              <label class="field">
+                <span>Секция запроса</span>
+                <select>
+                  <option>Помощь при обслуживании</option>
+                  <option>Ремонт</option>
+                  <option>Помощь при эксплуатации</option>
+                </select>
+              </label>
+            </div>
+
+            <label class="upload-box">
+              <input id="imageInput" type="file" accept="image/*">
+              <span class="upload-title">Загрузить фото для ИИ</span>
+              <span class="upload-text">JPEG, PNG, WebP. Желательно 3-5 фото: общий план, средний план, крупный план повреждения.</span>
+                <span id="uploadStatus" style="display:block; margin-top:10px; color:#00ff99; font-weight:600;"></span>
+            </label>
+
+            <label class="field">
+              <span>Поле ответа ИИ</span>
+             <div id="aiResultBox" class="ai-result"></div>
+            </label>
+
+            <img id="drawingImage" style="max-width:300px; display:none; margin-top:15px;">
+
+            <div class="form-actions">
+              <button type="button" class="button button-primary" onclick="sendToAI()"">Отправить в ИИ</button>
+              <button class="button button-secondary" type="reset">Очистить</button>
+            </div>
+          </form>
+
+          <div class="assistant-sidecard">
+            <img class="sidecard-illustration" src="/static/assets/ai-inspection.svg" alt="Иллюстрация анализа детали">
+            <span class="panel-label">Что должен вернуть ИИ</span>
+            <ul class="result-points">
+              <li>Статус детали: исправна, износ, критическое повреждение.</li>
+              <li>Предполагаемая причина: перегрев, деформация, коррозия, течь, трещина.</li>
+              <li>Действие: можно эксплуатировать, нужно обслуживание, требуется ремонт.</li>
+              <li>Ссылка на нужную статью или инструкцию по восстановлению.</li>
+            </ul>
+
+            <div class="status-card">
+              <span class="status-label">Пример ответа</span>
+              <p>Обнаружены следы износа подшипникового узла и масляные подтёки. Рекомендуется остановить эксплуатацию и перейти к статье по замене уплотнения и проверке посадочного места.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="services-section" id="services">
+        <div class="section-heading">
+          <p class="eyebrow">Три ключевых направления</p>
+          <h2>Сервисные сценарии для механика, инженера и оператора</h2>
+        </div>
+
+        <div class="services-grid">
+          <article class="service-card">
+            <img class="service-image" src="/static/assets/service-maintenance.svg" alt="Плановое обслуживание сельхозтехники">
+            <span class="service-index">01</span>
+            <h3>Помощь при обслуживании</h3>
+            <p>Регламентные проверки, контроль износа, диагностика до отказа, подбор профилактических действий.</p>
+            <ul>
+              <li>Осмотр приводов, ремней, фильтров и гидролиний</li>
+              <li>Подсказки по периодичности сервисных работ</li>
+              <li>Определение ранних признаков износа по фото</li>
+            </ul>
+          </article>
+
+          <article class="service-card">
+            <img class="service-image" src="/static/assets/service-repair.svg" alt="Ремонт узлов сельхозтехники">
+            <span class="service-index">02</span>
+            <h3>Ремонт</h3>
+            <p>Быстрая оценка повреждений, подбор статьи по восстановлению и ориентир по необходимым действиям в мастерской.</p>
+            <ul>
+              <li>Поиск трещин, сколов, деформаций и течей</li>
+              <li>Рекомендации по замене или восстановлению детали</li>
+              <li>Вывод на нужный материал по ремонту</li>
+            </ul>
+          </article>
+
+          <article class="service-card">
+            <img class="service-image" src="/static/assets/service-operation.svg" alt="Эксплуатация сельхозтехники в поле">
+            <span class="service-index">03</span>
+            <h3>Помощь при эксплуатации</h3>
+            <p>Поддержка оператора в поле: предупреждения по неправильной работе узлов и советы по безопасному продолжению смены.</p>
+            <ul>
+              <li>Разбор необычных шумов, вибраций и перегрева</li>
+              <li>Советы по снижению нагрузки на механизм</li>
+              <li>Переход к инструкциям по корректной эксплуатации</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="guide-section" id="guide">
+        <div class="section-heading">
+          <p class="eyebrow">Краткое руководство</p>
+          <h2>Какие фото загружать и как правильно снимать детали</h2>
+        </div>
+
+        <div class="guide-grid">
+          <article class="guide-card accent-card">
+            <img class="guide-image" src="/static/assets/photo-guide.svg" alt="Как фотографировать детали техники">
+            <h3>Что загружать</h3>
+            <ul>
+              <li>Общий вид узла, чтобы ИИ понял расположение детали.</li>
+              <li>Средний план проблемной зоны на расстоянии 40-80 см.</li>
+              <li>Крупный план дефекта: трещина, течь, скол, ржавчина, перегрев.</li>
+              <li>Фото маркировки, серийной таблички или номера детали, если он виден.</li>
+            </ul>
+          </article>
+
+          <article class="guide-card">
+            <h3>Как фотографировать</h3>
+            <ul>
+              <li>Снимайте при хорошем освещении, без сильной тени и бликов.</li>
+              <li>Держите камеру ровно, не смазывайте кадр, отключите цифровой зум.</li>
+              <li>Добавьте 2-3 ракурса одной и той же детали.</li>
+              <li>Если есть течь или деформация, положите рядом объект для масштаба.</li>
+            </ul>
+          </article>
+
+          <article class="guide-card">
+            <h3>Чего избегать</h3>
+            <ul>
+              <li>Фото издалека, где не видно состояние поверхности.</li>
+              <li>Съёмка в темноте, в движении или с грязной линзой камеры.</li>
+              <li>Кадры, где дефект закрыт руками, инструментом или шлангами.</li>
+              <li>Сильные фильтры и чрезмерное сжатие изображения.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+<script>
+window.onload = function () {
+
+    console.log("JS LOADED");
+
+    const input = document.getElementById("imageInput");
+    const status = document.getElementById("uploadStatus");
+
+    if (!input) {
+        console.log("INPUT NOT FOUND");
+        return;
+    }
+
+    input.addEventListener("change", function () {
+
+        console.log("FILE SELECTED");
+
+        if (this.files.length > 0) {
+            status.innerText = "✔ Фото загружено: " + this.files[0].name;
+        }
+    });
+};
+
+async function sendToAI() {
+    const fileInput = document.getElementById("imageInput");
+    const resultBox = document.getElementById("aiResultBox");
+
+    if (!fileInput.files.length) {
+        alert("Загрузите фото");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", fileInput.files[0]);
+
+    resultBox.innerHTML = "⏳ Анализ изображения...";
+
+    try {
+        const response = await fetch("/predict", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        resultBox.innerHTML = `
+            <h3>📦 Диагностика</h3>
+
+            <p><b>Деталь:</b> ${data.gear}</p>
+            <p><b>Повреждение:</b> ${data.damage}</p>
+
+            <hr>
+
+            <pre style="white-space: pre-wrap">
+📦 ${data.info}
+
+🔧 ${data.repair}
+</pre>
+        `;
+
+        const img = document.createElement("drawingImage");
+
+        if (data.drawing) {
+            const drawingImage = document.getElementById("drawingImage");
+            drawingImage.src = data.drawing;
+            drawingImage.style.display = "block";
+        }
+
+    } catch (err) {
+        resultBox.innerHTML = "❌ Ошибка запроса к серверу";
+    }
+}</script>
+</body>
+</html>
