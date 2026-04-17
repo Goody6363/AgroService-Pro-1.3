@@ -47,6 +47,16 @@ def predict():
 
     gear_pred, damage_pred = model.predict(img)
 
+    gear_conf = float(np.max(gear_pred))
+    damage_conf = float(np.max(damage_pred))
+
+    CONF_THRESHOLD = 0.7
+
+    if gear_conf < CONF_THRESHOLD:
+        return jsonify({
+            "error": "Деталь не распознана"
+        })
+
     gear_id = int(np.argmax(gear_pred))
     damage_id = int(np.argmax(damage_pred))
 

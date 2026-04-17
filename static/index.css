@@ -1089,3 +1089,25 @@ main {
     scroll-behavior: auto !important;
   }
 }
+
+/* Плашка уведомления */
+.toast {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2ecc71;
+  color: rgb(255, 255, 255);
+  padding: 14px 30px;
+  border-radius: 10px;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  top: 20px;
+  opacity: 1;
+}

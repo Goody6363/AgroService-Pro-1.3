@@ -108,6 +108,12 @@
              <div id="aiResultBox" class="ai-result"></div>
             </label>
 
+            <button id="requestBtn" style="display:none; margin-top:15px;" class="button button-primary">
+              Оставить заявку
+            </button>
+
+            <div id="toast" class="toast">Заявка успешно отправлена!</div>
+
             <img id="drawingImage" style="max-width:300px; display:none; margin-top:15px;">
 
             <div class="form-actions">
@@ -241,11 +247,24 @@ window.onload = function () {
             status.innerText = "✔ Фото загружено: " + this.files[0].name;
         }
     });
+
+    if (localStorage.getItem("showToast") === "true") {
+      const toast = document.getElementById("toast");
+
+      toast.classList.add("show");
+
+      localStorage.removeItem("showToast");
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3000);
+    }
 };
 
 async function sendToAI() {
     const fileInput = document.getElementById("imageInput");
     const resultBox = document.getElementById("aiResultBox");
+    const requestBtn = document.getElementById("requestBtn");
 
     if (!fileInput.files.length) {
         alert("Загрузите фото");
@@ -256,6 +275,7 @@ async function sendToAI() {
     formData.append("image", fileInput.files[0]);
 
     resultBox.innerHTML = "⏳ Анализ изображения...";
+    requestBtn.style.display = "none";
 
     try {
         const response = await fetch("/predict", {
@@ -280,6 +300,8 @@ async function sendToAI() {
 </pre>
         `;
 
+        requestBtn.style.display = "block";
+
         const img = document.createElement("drawingImage");
 
         if (data.drawing) {
@@ -291,6 +313,17 @@ async function sendToAI() {
     } catch (err) {
         resultBox.innerHTML = "❌ Ошибка запроса к серверу";
     }
-}</script>
+}
+
+const requestBtn = document.getElementById("requestBtn");
+const toast = document.getElementById("toast");
+
+requestBtn.addEventListener("click", () => {
+    localStorage.setItem("showToast", "true");
+
+    location.reload
+});
+
+</script>
 </body>
 </html>
